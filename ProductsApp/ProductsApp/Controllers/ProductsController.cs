@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace ProductsApp.Controllers
 {
@@ -30,6 +31,19 @@ namespace ProductsApp.Controllers
                 return NotFound();
             }
             return Ok(product);
+        }
+
+        [ResponseType(typeof(Product))]
+        public IHttpActionResult PostProduct(Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //saveModel
+
+            return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
         }
     }
 }
